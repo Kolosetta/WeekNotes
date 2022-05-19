@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">WeekNotes</string>
+    <string name="day_of_week_title">День недели:</string>
+    <string name="high_priority">Высокий</string>
+    <string name="medium_priority">Средний</string>
+    <string name="low_priority">Низкий</string>
+    <string name="save_note">Сохранить заметку</string>
+    <string name="hint_title">Заголовок заметки</string>
+    
+    <string-array name="days_of_week">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+        <item>Воскресенье</item>
+    </string-array>
+</resources>
