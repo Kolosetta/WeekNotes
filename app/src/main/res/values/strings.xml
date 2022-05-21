@@ -6,7 +6,8 @@
     <string name="low_priority">Низкий</string>
     <string name="save_note">Сохранить заметку</string>
     <string name="hint_title">Заголовок заметки</string>
-    
+    <string name="warning_fill_fields">Все поля должны быть заполнены</string>
+
     <string-array name="days_of_week">
         <item>Понедельник</item>
         <item>Вторник</item>
