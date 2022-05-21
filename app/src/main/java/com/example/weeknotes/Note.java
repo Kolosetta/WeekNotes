@@ -2,6 +2,7 @@ package com.example.weeknotes;
 
 
 public class Note {
+    private int id;
     private final String title;
     private final String description;
     private final DayOfWeek dayOfWeek;
@@ -63,13 +64,16 @@ public class Note {
         }
     }
 
-
-
-    public Note(String title, String description, DayOfWeek dayOfWeek, Priority priority) {
+    public Note(int id, String title, String description, DayOfWeek dayOfWeek, Priority priority) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.dayOfWeek = dayOfWeek;
         this.priority = priority;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
