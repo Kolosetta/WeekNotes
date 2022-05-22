@@ -7,6 +7,7 @@
     <string name="save_note">Сохранить заметку</string>
     <string name="hint_title">Заголовок заметки</string>
     <string name="warning_fill_fields">Все поля должны быть заполнены</string>
+    <string name="no_notes">Пока нет ни одной заметки</string>
 
     <string-array name="days_of_week">
         <item>Понедельник</item>
