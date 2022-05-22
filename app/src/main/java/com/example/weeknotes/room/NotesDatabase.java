@@ -1,10 +1,12 @@
-package com.example.weeknotes;
+package com.example.weeknotes.room;
 
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+
+import com.example.weeknotes.Note;
 
 @Database(entities = {Note.class}, version = 1, exportSchema = false)
 abstract public class NotesDatabase extends RoomDatabase {
@@ -15,7 +17,7 @@ abstract public class NotesDatabase extends RoomDatabase {
     public static NotesDatabase getInstance(Context context) {
         synchronized (LOCK) {
             if (database == null) {
-                database = Room.databaseBuilder(context, NotesDatabase.class, DB_NAME).allowMainThreadQueries().build();
+                database = Room.databaseBuilder(context, NotesDatabase.class, DB_NAME).build();
             }
             return database;
         }

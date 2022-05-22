@@ -79,7 +79,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         }
     }
 
-    interface OnNoteClickListener{
+    public interface OnNoteClickListener{
         void onNoteCLick(int position);
         void onNoteLongClick(int position);
     }

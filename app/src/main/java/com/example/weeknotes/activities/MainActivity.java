@@ -1,19 +1,24 @@
-package com.example.weeknotes;
-
-import static android.provider.BaseColumns._ID;
-import static com.example.weeknotes.NotesContract.NotesEntry.TABLE_NAME;
+package com.example.weeknotes.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.weeknotes.MainViewModel;
+import com.example.weeknotes.Note;
+import com.example.weeknotes.NotesAdapter;
 import com.example.weeknotes.databinding.ActivityMainBinding;
+import com.example.weeknotes.room.NotesDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +26,19 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private NotesDatabase database;
-    private ArrayList<Note> notes = new ArrayList<>();
-
+    private NotesAdapter adapter;
+    private MainViewModel viewModel;
+    private final ArrayList<Note> notes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        database = NotesDatabase.getInstance(this);
-        getData();
 
-        NotesAdapter adapter = new NotesAdapter(notes);
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        getData();
+        adapter = new NotesAdapter(notes);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
 
@@ -69,28 +74,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 Note note = notes.get(viewHolder.getAdapterPosition());
-                database.notesDao().deleteNote(note);
-                getData();
-                adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                if(notes.isEmpty()){
-                    binding.noNotesTextView.setVisibility(View.VISIBLE);
-                }
+                viewModel.deleteNote(note);
             }
         });
         itemTouchHelper.attachToRecyclerView(binding.recyclerView);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(notes.isEmpty()){
-            binding.noNotesTextView.setVisibility(View.VISIBLE);
-        }
-    }
-
     private void getData(){
-        List<Note> notesFromDB = database.notesDao().getAllNotes();
-        notes.clear();
-        notes.addAll(notesFromDB);
+        LiveData<List<Note>> notesFromDB = viewModel.getNotes();
+        notesFromDB.observe(this, new Observer<List<Note>>() {
+            @Override
+            public void onChanged(List<Note> notesFromLiveData) {
+                notes.clear();
+                notes.addAll(notesFromLiveData);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
     }
 }
